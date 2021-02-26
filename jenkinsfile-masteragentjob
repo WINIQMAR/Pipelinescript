@@ -1,0 +1,37 @@
+pipeline{
+    agent none
+	  stages {	 
+	  
+	  stage('Non Parallel Stage') {
+	   agent  {
+						label "master"
+			  }
+		steps{
+				echo "This job will be executed first"
+			 }
+              }
+			
+			
+	  stage('Run-Tests') {
+	      parallel  {
+		    stage('Test on Windows') {
+			  agent  {
+			     label "Windows-Node _Slave"		
+	                  }
+			   steps {
+				 echo "Taks 1 on Windows-Node"
+				     }
+					}
+					
+			stage ('Test on Master') {
+			  agent  {
+			    label "Master"		
+	                  }
+			   steps {
+				 echo "Taks 1 on master"
+				     }
+					                  }
+					}
+					      }
+             }
+		}	 
